@@ -1,8 +1,8 @@
 import graphene
 from graphene_django.forms.mutation import DjangoModelFormMutation
 
-from products.forms import CategoryForm, ProductForm
-from products.types import CategoryType, ProductType
+from products.forms import CategoryForm, ProductForm, ProductMediaForm
+from products.types import CategoryType, ProductType, ProductMediaType
 
 
 class CategoryMutation(DjangoModelFormMutation):
@@ -21,6 +21,15 @@ class ProductMutation(DjangoModelFormMutation):
         form_class = ProductForm
         input_field_name = 'data'
         return_field_name = 'product'
+
+
+class ProductMediaMutation(DjangoModelFormMutation):
+    product_media = graphene.Field(ProductMediaType)
+
+    class Meta:
+        form_class = ProductMediaForm
+        input_field_name = 'data'
+        return_field_name = 'product_media'
 
 
 class Mutation(graphene.ObjectType):
