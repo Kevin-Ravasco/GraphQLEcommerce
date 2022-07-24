@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None, is_staff=False, is_admin=False, is_active=True):
+    def create_user(self, email, password=None, is_staff=False, is_admin=False, is_active=True, is_superuser=False):
         if not email:
             raise ValueError("User must have an email address")
         if not password:
@@ -13,6 +13,7 @@ class UserManager(BaseUserManager):
         user_obj.is_active = is_active
         user_obj.admin = is_admin
         user_obj.staff = is_staff
+        user_obj.is_superuser = is_superuser
         user_obj.save(using=self._db)
         return user_obj
 
@@ -21,7 +22,7 @@ class UserManager(BaseUserManager):
         return user
 
     def create_superuser(self, email, password=None):
-        user = self.create_user(email, password=password, is_staff=True, is_admin=True)
+        user = self.create_user(email, password=password, is_staff=True, is_admin=True, is_superuser=True)
         return user
 
 
@@ -32,6 +33,7 @@ class User(AbstractBaseUser):
     is_active = models.BooleanField(default=True)
     staff = models.BooleanField(default=False)
     admin = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     USERNAME_FIELD = 'email'  # this now overrides the username field and now email is the default field

@@ -34,10 +34,14 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # our apps
     'accounts.apps.AccountsConfig',
+    'products.apps.ProductsConfig',
     # third party apps
     'graphene_django',
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',
     'graphql_auth',
+    'django_filters',
+    'djmoney',
+    "graphene_djmoney",
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
@@ -119,6 +123,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Configuration for graphene
 GRAPHENE = {
+    "ATOMIC_MUTATIONS": True,
     "SCHEMA": "core.schema.schema",
     "MIDDLEWARE": [
         "graphql_jwt.middleware.JSONWebTokenMiddleware",
