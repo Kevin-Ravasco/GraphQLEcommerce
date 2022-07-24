@@ -35,7 +35,11 @@ def upload_file_directory(instance, filename):
 
 class ProductMedia(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_media')
-    file = models.FileField(upload_to=upload_file_directory)
+    image = models.ImageField(upload_to=upload_file_directory)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Media for product {self.product.name}"
+
+    class Meta:
+        verbose_name_plural = 'Product Media'

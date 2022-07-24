@@ -14,7 +14,7 @@ class CategoryType(DjangoObjectType):
 class ProductMediaType(DjangoObjectType):
     class Meta:
         model = ProductMedia
-        fields = ['product', 'file']
+        fields = ['product', 'image']
 
 
 class ProductType(DjangoObjectType):

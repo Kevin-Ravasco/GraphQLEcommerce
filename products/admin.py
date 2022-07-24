@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from products.models import Category, Product
+from products.models import Category, Product, ProductMedia
 
 
 @admin.register(Category)
@@ -17,3 +17,7 @@ class ProductAdmin(admin.ModelAdmin):
     prepopulated_fields = {"slug": ("name",)}
 
 
+@admin.register(ProductMedia)
+class ProductMediaAdmin(admin.ModelAdmin):
+    list_display = ['product', 'image', 'timestamp']
+    list_filter = ['product']
