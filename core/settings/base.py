@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     # our apps
     'accounts.apps.AccountsConfig',
     'products.apps.ProductsConfig',
+    'orders.apps.OrdersConfig',
     # third party apps
     'graphene_django',
     'graphql_jwt.refresh_token.apps.RefreshTokenConfig',

@@ -85,7 +85,7 @@ local_settings.py
 
 .env
 db.sqlite3
-
+media
 
 
 ### Ignore Migrations and Pychache ###
