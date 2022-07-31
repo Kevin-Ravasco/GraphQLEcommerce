@@ -25,21 +25,21 @@ class Order(models.Model):
 
     @property
     def get_cart_total(self):
-        order_items = OrderItem.objects.filter(order=self)
+        order_items = CartItem.objects.filter(order=self)
         total = sum([item.get_total for item in order_items])
         return total
 
     @property
     def get_cart_items(self):
-        order_items = OrderItem.objects.filter(order=self)
+        order_items = CartItem.objects.filter(order=self)
         total = sum([item.quantity for item in order_items])
         return total
 
 
-class OrderItem(models.Model):
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+class CartItem(models.Model):
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='cart_item')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    quantity = models.IntegerField(default=0)
+    quantity = models.IntegerField(default=1)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     @property
@@ -50,7 +50,7 @@ class OrderItem(models.Model):
 
 class ShippingInformation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='shipping_information')
     address = models.CharField(max_length=200)
     town = models.CharField(max_length=200)
     further_description = models.TextField(blank=True, null=True)
