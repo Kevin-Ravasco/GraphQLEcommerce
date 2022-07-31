@@ -16,6 +16,11 @@ class ProductMediaType(DjangoObjectType):
         model = ProductMedia
         fields = ['product', 'image']
 
+    def resolve_image(self, info):
+        # to return image url instead of name
+        # info.context.build_absolute_uri(self.image.url)
+        return self.image.url
+
 
 class ProductType(DjangoObjectType):
     """
