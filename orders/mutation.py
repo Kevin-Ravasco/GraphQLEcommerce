@@ -114,7 +114,8 @@ class CheckoutMutation(graphene.Mutation):
 
     Output = OrderPayload
 
-    def mutate(self, root, info):
+    @classmethod
+    def mutate(cls, root, info):
         user = info.context.user
         if user.is_authenticated:
             if Order.objects.filter(complete=False, user=user).exists():
