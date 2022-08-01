@@ -93,8 +93,16 @@ class CartMutation(graphene.Mutation):
         return OrderMutationFail(error_message="Please login to add to cart")
 
 
-class ShippingInformationMutation():
-    pass
+class ShippingInformationMutation(graphene.Mutation):
+    class Arguments:
+        order_id = graphene.Int()
+        town = graphene.String()
+        address = graphene.String()
+        further_description = graphene.String()
+
+    @classmethod
+    def mutate(cls, root, info):
+        return
 
 
 class CheckoutMutation(graphene.Mutation):
