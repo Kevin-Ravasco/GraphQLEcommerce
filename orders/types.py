@@ -7,7 +7,7 @@ from .models import Order, CartItem, ShippingInformation
 class OrderType(DjangoObjectType):
     class Meta:
         model = Order
-        filter_fields = ['status', 'timestamp']
+        filter_fields = ['status', 'complete', 'timestamp']
         interfaces = (relay.Node,)
 
 

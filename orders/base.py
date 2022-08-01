@@ -11,6 +11,6 @@ class OrderMutationSuccess(graphene.ObjectType):
     order = graphene.Field(OrderType, required=True)
 
 
-class CreateOrderPayload(graphene.Union):
+class OrderPayload(graphene.Union):
     class Meta:
         types = (OrderMutationFail, OrderMutationSuccess)

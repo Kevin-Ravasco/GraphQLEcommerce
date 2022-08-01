@@ -1,7 +1,7 @@
 import graphene
 from django.db.models import F
 
-from orders.base import CreateOrderPayload, OrderMutationSuccess, OrderMutationFail
+from orders.base import OrderPayload, OrderMutationSuccess, OrderMutationFail
 from orders.models import Order, CartItem
 from products.models import Product
 
@@ -63,7 +63,7 @@ class CartMutation(graphene.Mutation):
         action = graphene.String(description=f"Choices are: {CART_ADD}, "
                                              f"{CART_DECREASE} or {CART_REMOVE}")
 
-    Output = CreateOrderPayload
+    Output = OrderPayload
 
     @classmethod
     def mutate(cls, root, info, product_id, action):
@@ -93,5 +93,36 @@ class CartMutation(graphene.Mutation):
         return OrderMutationFail(error_message="Please login to add to cart")
 
 
+class ShippingInformationMutation():
+    pass
+
+
+class CheckoutMutation(graphene.Mutation):
+    """
+    This mutation is used to handle the checkout process.
+    The user has to have items in cart already in order
+    to complete the checkout process.
+    """
+
+    Output = OrderPayload
+
+    def mutate(self, root, info):
+        user = info.context.user
+        if user.is_authenticated:
+            if Order.objects.filter(complete=False, user=user).exists():
+                # make the order complete
+                order = Order.objects.get(complete=False, user=user)
+                order.complete = True
+                order.save()
+                return OrderMutationSuccess(order=order)
+            else:
+                OrderMutationFail(error_message="No order with status complete=False")
+
+        else:
+            # we can handle guest user checkout
+            return OrderMutationFail(error_message="Please login to add to checkout")
+
+
 class Mutation(graphene.ObjectType):
     update_cart = CartMutation.Field()
+    checkout = CheckoutMutation.Field()
