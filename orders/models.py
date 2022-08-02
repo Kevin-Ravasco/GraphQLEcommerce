@@ -50,7 +50,7 @@ class CartItem(models.Model):
 
 class ShippingInformation(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
-    order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='shipping_information')
+    order = models.OneToOneField(Order, on_delete=models.CASCADE, related_name='shipping_information')
     address = models.CharField(max_length=200)
     town = models.CharField(max_length=200)
     further_description = models.TextField(blank=True, null=True)
