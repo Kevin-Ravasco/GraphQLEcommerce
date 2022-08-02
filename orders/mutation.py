@@ -2,7 +2,8 @@ import graphene
 from django.db.models import F
 
 from orders.base import OrderPayload, OrderMutationSuccess, OrderMutationFail
-from orders.models import Order, CartItem
+from orders.models import Order, CartItem, ShippingInformation
+from orders.types import ShippingInformationType
 from products.models import Product
 
 
@@ -100,9 +101,23 @@ class ShippingInformationMutation(graphene.Mutation):
         address = graphene.String()
         further_description = graphene.String()
 
+    shipping_information = graphene.Field(ShippingInformationType)
+
     @classmethod
-    def mutate(cls, root, info):
-        return
+    def mutate(cls, root, info, order_id, town, address, further_description):
+        user = info.context.user
+        if user.is_authenticated:
+            if Order.objects.filter(id=order_id).exists():
+                order = Order.objects.get(id=order_id)
+                shipping_information = ShippingInformation.objects.create(user=user, order=order,
+                                                                          town=town, address=address,
+                                                                          further_description=further_description)
+                return ShippingInformationMutation(shipping_information=shipping_information)
+
+            # we can handle guest user checkout
+            return OrderMutationFail(error_message="Invalid order ID")
+        # we can handle guest user checkout
+        return OrderMutationFail(error_message="Please login to add to checkout")
 
 
 class CheckoutMutation(graphene.Mutation):
@@ -135,3 +150,4 @@ class CheckoutMutation(graphene.Mutation):
 class Mutation(graphene.ObjectType):
     update_cart = CartMutation.Field()
     checkout = CheckoutMutation.Field()
+    add_shipping_info = ShippingInformationMutation.Field()
