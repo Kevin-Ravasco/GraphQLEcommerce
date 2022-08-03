@@ -27,7 +27,7 @@ technologies:
 - List Product Categories
 - Add Products
 - List Products
-- Multipe images for products
+- Multiple images for products
 - Delete Product
 
 ###### Orders
