@@ -35,6 +35,7 @@ technologies:
 - Add / Remove to Cart
 - Delete to order
 - Order status (Pending, Out for Delivery, Delivered)
+- Shipping information
 
 
 ### How to Run
