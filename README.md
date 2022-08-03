@@ -46,6 +46,8 @@ technologies:
 - Create a `.env` file and copy contents of `example.env` into it
 - Update the contents of the local DB settings in the `.env` file
   to match your local postgres db credentials
+
+
 - Run server:
 ```shell
 python manage.py runserver
