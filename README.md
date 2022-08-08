@@ -54,3 +54,36 @@ python manage.py runserver
 ```
 - Go to `/grahpql`
 
+
+### Example Query
+Adding items to cart:
+```shell
+mutation {
+  updateCart(action: "ADD", productId: 1) {
+  __typename
+  ... on OrderMutationSuccess {
+        order{
+          id,
+          status,
+          timestamp
+          cartItem{
+            id,
+            quantity,
+            product{
+              name,
+              price{
+                  amountStr
+              },
+              productMedia {
+                image
+              }
+            },
+          }
+        }
+      }
+  ... on OrderMutationFail {
+        errorMessage
+    }
+  }
+}
+```
