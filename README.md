@@ -57,6 +57,7 @@ python manage.py runserver
 
 ### Example Query
 Adding items to cart:
+
 ```shell
 mutation {
   updateCart(action: "ADD", productId: 1) {
