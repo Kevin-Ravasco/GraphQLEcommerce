@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
     # our apps
     'accounts.apps.AccountsConfig',
     'products.apps.ProductsConfig',
@@ -43,13 +44,16 @@ INSTALLED_APPS = [
     'django_filters',
     'djmoney',
     "graphene_djmoney",
+    "corsheaders",
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
+SITE_ID = 1
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -188,3 +192,7 @@ SEND_PASSWORD_SET_EMAIL = False
 
 # SMTP config in development
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+]

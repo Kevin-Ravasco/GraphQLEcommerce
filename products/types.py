@@ -1,3 +1,4 @@
+from django.contrib.sites.models import Site
 from graphene import relay
 from graphene_django import DjangoObjectType
 
@@ -19,7 +20,8 @@ class ProductMediaType(DjangoObjectType):
     def resolve_image(self, info):
         # to return image url instead of name
         # info.context.build_absolute_uri(self.image.url)
-        return self.image.url
+        domain = Site.objects.get_current().domain
+        return f"http://{domain}{self.image.url}"
 
 
 class ProductType(DjangoObjectType):

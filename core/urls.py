@@ -1,3 +1,5 @@
+from django.conf import settings
+from django.conf.urls.static import static
 from graphene_django.views import GraphQLView
 
 from django.contrib import admin
@@ -10,3 +12,5 @@ urlpatterns = [
 
     path("graphql", csrf_exempt(GraphQLView.as_view(graphiql=True))),
 ]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
